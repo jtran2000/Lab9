@@ -54,8 +54,17 @@
     <button>Console Trace</button>
     <button>Trigger a Global Error</button>
   </section>
-
+  
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "169548e8dde842fab40871e0a34cd6bb"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+
+    TrackJS.track('Testing TrackJS!');
+                        
+
     class InputError extends Error {
       constructor (message) {
         super(message);
@@ -120,6 +129,20 @@
     errorBtns[9].onclick = function (event) {
       console.trace('Trace');
     }
+    errorBtns[10].onclick = function (event) {
+      let num1 = 1;
+      if (true) {
+        let num2 = 2;
+      }
+      console.log(num1 + num2);
+    }
+    //Use this instead of onerror to avoid breaking TrackJS
+    window.addEventListener('error', event => {
+      console.log(event);
+    });
+/*     window.onerror = function (event) {
+      console.log(event);
+    } */
   </script>
 </body>
 </html>
