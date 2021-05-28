@@ -56,17 +56,70 @@
   </section>
 
   <script>
+    class InputError extends Error {
+      constructor (message) {
+        super(message);
+        this.name = "InputError";
+      }
+    }
+
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
       let output = document.querySelector('output');
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch (err){
+        if (!firstNum && !secondNum) {
+          throw new InputError("No input for first or second number")
+        }
+        if (!firstNum) {
+          throw new InputError("No input for first number")
+        }
+        if (!secondNum) {
+          throw new InputError("No input for second number")
+        }
+      }
+      finally {
+        console.log(`Attempted to calculate: ${firstNum} ${operator} ${secondNum}`)
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-    // TODO - Make buttons functional
+    errorBtns[0].onclick = function (event) {
+      console.log('Hello World!')
+    }
+    errorBtns[1].onclick = function (event) {
+      console.error('This is an error');
+    }
+    errorBtns[2].onclick = function (event) {
+      //console.dir({myString: "Hello World", myNum: 123, myObj: {property: 'value'}, myArray: [1,2,3]});
+      console.dir(calculateBtn);
+    }
+    errorBtns[3].onclick = function (event) {
+      console.dirxml(calculateBtn);
+    }
+    errorBtns[4].onclick = function (event) {
+      console.group('Group Start');
+    }
+    errorBtns[5].onclick = function (event) {
+      console.groupEnd();
+    }
+    errorBtns[6].onclick = function (event) {
+      console.table(errorBtns);
+    }
+    errorBtns[7].onclick = function (event) {
+      console.time('Timer 1');
+    }
+    errorBtns[8].onclick = function (event) {
+      console.timeEnd('Timer 1');
+    }
+    errorBtns[9].onclick = function (event) {
+      console.trace('Trace');
+    }
   </script>
 </body>
 </html>
